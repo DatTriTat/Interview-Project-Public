@@ -30,10 +30,9 @@ public class CreditCardController {
     public ResponseEntity<Integer> addCreditCardToUser(@RequestBody AddCreditCardToUserPayload payload) {
         Optional<User> user = userRepository.findById(payload.getUserId());
         if (user.isPresent()) {
-            Optional<CreditCard> existingCard = creditCardRepository.findByNumberAndOwner(payload.getCardNumber(), user.get());
+            Optional<CreditCard> existingCard = creditCardRepository.findByNumber(payload.getCardNumber());
             if(existingCard.isPresent()) {
                 return ResponseEntity.badRequest().build();
-
             }
             CreditCard creditCard = new CreditCard();
             creditCard.setIssuanceBank(payload.getCardIssuanceBank());
